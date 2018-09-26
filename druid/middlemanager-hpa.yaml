@@ -1,0 +1,18 @@
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  namespace: apachecon
+  name: druid-mm
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: apachecon-druid-middlemanager
+  minReplicas: 1
+  maxReplicas: 16
+  metrics:
+  - type: Pods
+    pods:
+      metricName: druid_ingestion_current_load
+      targetAverageValue: 100
